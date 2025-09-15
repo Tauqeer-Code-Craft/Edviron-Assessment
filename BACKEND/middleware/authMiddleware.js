@@ -3,16 +3,19 @@ const User = require("../models/User");
 
 async function authMiddleware(req, res, next){
 
-    const authHeader = req.headers["authorization"];
+    const authHeader = req.headers.authorization;
+
+
     const token = authHeader && authHeader.startsWith("Bearer ")
         ? authHeader.split(" ")[1]
         : null;
 
     if(!token){
-        return res.status(401).json({ message: "No token Provided" });
+        return res.status(401).json({ message: "Authorization token missing" });
     }
 
     try{
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const user = await User.findById(decoded.id).select("-password");
@@ -24,7 +27,7 @@ async function authMiddleware(req, res, next){
         next();
     }
     catch(err){
-        res.status(403).json({ message: "Invalid Token" });
+        res.status(401).json({ message: "Invalid or expired token" });
     }
 }
 

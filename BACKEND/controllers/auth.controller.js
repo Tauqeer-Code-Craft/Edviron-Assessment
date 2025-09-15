@@ -41,13 +41,28 @@ const login = async (req, res) => {
 }
 
 const me = async (req,res) =>{
-            try{
-                const user = await User.findById(req.user.id).select("-password");
-                res.json(user);
-            }   
-            catch(err){
-                res.status(500).json({ message: "Server error" });
-            }
-        }
+    try{
+      const user = await User.findById(req.user.id).select("-password");
+      res.json(user);
+    }   
+    catch(err){
+    res.status(500).json({ message: "Server error" });
+    }
+};
 
-module.exports = { register, login, me };
+const logout = async (req, res) => {
+    try{
+        res.clearCookie("token",{
+            httpOnly:true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+        });
+        res.json({ message: "Logged out Successfully"});
+    }
+    catch(err){
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+
+module.exports = { register, login, me, logout };

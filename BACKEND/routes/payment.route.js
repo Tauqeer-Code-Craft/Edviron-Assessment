@@ -1,10 +1,9 @@
 const router = require("express").Router();
-const cyrpto =  require("crypto");
-const authMiddleware = require("../middlerware/authMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 const { createPayment } = require("../controllers/payment.controller");
+const verifySignature = require("../utils/verfySignature");
 const OrderStatus = require("../models/OrderStatus");
 const WebhookLog = require("../models/WebhookLog");
-const verifySignature = require("../utils/verfySignature");
 
 
 router.post("/create-payment", authMiddleware , createPayment);
@@ -23,7 +22,12 @@ router.post("/webhook", async(req, res)=>{
         await WebhookLog.create({ payload });
 
         const orderInfo = payload.order_info;
-        await OrderStatus.findByIdAndUpdate(      
+
+        if (!orderInfo || !orderInfo.order_id) {
+            return res.status(400).json({ error: "Invalid payload structure" });
+        }
+
+        await OrderStatus.findOneAndUpdate(      
         { collect_id: orderInfo.order_id },
         {
         transaction_amount: orderInfo.transaction_amount,
