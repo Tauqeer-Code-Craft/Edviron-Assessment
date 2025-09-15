@@ -48,10 +48,8 @@ const PaymentsAnalytics = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-[60vh] bg-gray-950">
-        <p className="text-lg text-gray-400 animate-pulse">
-          🚀 Loading analytics...
-        </p>
+      <div className="flex items-center justify-center h-[60vh] bg-gray-100">
+        <p className="text-lg text-gray-500 animate-pulse">🚀 Loading analytics...</p>
       </div>
     );
   }
@@ -69,12 +67,12 @@ const PaymentsAnalytics = () => {
       {
         label: "Revenue",
         data: data.monthlyRevenue.map((m) => m.amount),
-        borderColor: "#60a5fa",
-        backgroundColor: "rgba(96,165,250,0.15)",
+        borderColor: "#3b82f6",
+        backgroundColor: "rgba(59,130,246,0.15)",
         tension: 0.4,
         fill: true,
         pointRadius: 4,
-        pointBackgroundColor: "#60a5fa",
+        pointBackgroundColor: "#3b82f6",
       },
     ],
   };
@@ -109,7 +107,7 @@ const PaymentsAnalytics = () => {
       {
         data: [totalSuccess, totalFailed, totalPending],
         backgroundColor: ["#22c55e", "#ef4444", "#facc15"],
-        borderColor: "#1f2937",
+        borderColor: "#e5e7eb",
         borderWidth: 2,
       },
     ],
@@ -119,112 +117,111 @@ const PaymentsAnalytics = () => {
     {
       title: "Total Revenue",
       value: `₹${totalRevenue}`,
-      color: "text-blue-400",
-      icon: <TrendingUp className="w-6 h-6 text-blue-400" />,
+      color: "text-blue-600",
+      icon: <TrendingUp className="w-6 h-6 text-blue-600" />,
     },
     {
       title: "Success Payments",
       value: totalSuccess,
-      color: "text-green-400",
-      icon: <CheckCircle2 className="w-6 h-6 text-green-400" />,
+      color: "text-green-600",
+      icon: <CheckCircle2 className="w-6 h-6 text-green-600" />,
     },
     {
       title: "Failed Payments",
       value: totalFailed,
-      color: "text-red-400",
-      icon: <XCircle className="w-6 h-6 text-red-400" />,
+      color: "text-red-600",
+      icon: <XCircle className="w-6 h-6 text-red-600" />,
     },
     {
       title: "Pending Payments",
       value: totalPending,
-      color: "text-yellow-400",
-      icon: <Clock className="w-6 h-6 text-yellow-400" />,
+      color: "text-yellow-600",
+      icon: <Clock className="w-6 h-6 text-yellow-600" />,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-850 via-gray-900 to-gray-950 text-gray-100 p-8 space-y-12">
-      <h1 className="text-4xl font-bold text-center mb-10 tracking-tight text-white">
-        📊 Payments Analytics
-      </h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-8 space-y-12">
+  <h1 className="text-4xl font-bold text-center mb-10 tracking-tight">
+    📊 Payments Analytics
+  </h1>
 
-      {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {cardConfig.map((stat, i) => (
-          <div
-            key={i}
-            className="bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-700 hover:shadow-xl transition"
-          >
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-gray-400">
-                {stat.title}
-              </h3>
-              {stat.icon}
-            </div>
-            <p className={`text-2xl font-bold mt-3 ${stat.color}`}>
-              {stat.value}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Line + Pie in one row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-700">
-          <h2 className="text-xl font-semibold mb-4 text-gray-200 text-center">
-            Revenue Growth
-          </h2>
-          <Line
-            data={revenueData}
-            options={{
-              responsive: true,
-              plugins: { legend: { display: false } },
-              scales: {
-                x: { ticks: { color: "#d1d5db" }, grid: { color: "#374151" } },
-                y: { ticks: { color: "#d1d5db" }, grid: { color: "#374151" } },
-              },
-            }}
-          />
+  {/* Stat Cards */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    {cardConfig.map((stat, i) => (
+      <div
+        key={i}
+        className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow hover:shadow-lg border border-gray-200 dark:border-gray-700 transition"
+      >
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            {stat.title}
+          </h3>
+          {stat.icon}
         </div>
-
-        <div className="bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-700 flex flex-col justify-center">
-          <h2 className="text-xl font-semibold mb-4 text-gray-200 text-center">
-            Overall Payment Distribution
-          </h2>
-          <div className="max-w-sm mx-auto">
-            <Doughnut
-              data={pieData}
-              options={{
-                plugins: {
-                  legend: {
-                    position: "bottom",
-                    labels: { color: "#d1d5db", padding: 20 },
-                  },
-                },
-              }}
-            />
-          </div>
-        </div>
+        <p className={`text-2xl font-bold mt-3 ${stat.color}`}>{stat.value}</p>
       </div>
+    ))}
+  </div>
 
-      {/* Bar chart below */}
-      <div className="bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-700">
-        <h2 className="text-xl font-semibold mb-4 text-gray-200 text-center">
-          Monthly Status Breakdown
-        </h2>
-        <Bar
-          data={statusData}
+  {/* Line + Pie Charts */}
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 border border-gray-200 dark:border-gray-700">
+      <h2 className="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200 text-center">
+        Revenue Growth
+      </h2>
+      <Line
+        data={revenueData}
+        options={{
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: "#6b7280" }, grid: { color: "#e5e7eb dark:#374151" } },
+            y: { ticks: { color: "#6b7280" }, grid: { color: "#e5e7eb dark:#374151" } },
+          },
+        }}
+      />
+    </div>
+
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 border border-gray-200 dark:border-gray-700 flex flex-col justify-center">
+      <h2 className="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200 text-center">
+        Overall Payment Distribution
+      </h2>
+      <div className="max-w-sm mx-auto">
+        <Doughnut
+          data={pieData}
           options={{
-            responsive: true,
-            plugins: { legend: { position: "top", labels: { color: "#d1d5db" } } },
-            scales: {
-              x: { ticks: { color: "#d1d5db" }, grid: { color: "#374151" } },
-              y: { ticks: { color: "#d1d5db" }, grid: { color: "#374151" } },
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: { color: "#6b7280" }, // could use dark mode JS colors if needed
+              },
             },
           }}
         />
       </div>
     </div>
+  </div>
+
+  {/* Bar chart */}
+  <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 border border-gray-200 dark:border-gray-700">
+    <h2 className="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200 text-center">
+      Monthly Status Breakdown
+    </h2>
+    <Bar
+      data={statusData}
+      options={{
+        responsive: true,
+        plugins: { legend: { position: "top", labels: { color: "#6b7280" } } },
+        scales: {
+          x: { ticks: { color: "#6b7280" }, grid: { color: "#e5e7eb dark:#374151" } },
+          y: { ticks: { color: "#6b7280" }, grid: { color: "#e5e7eb dark:#374151" } },
+        },
+      }}
+    />
+  </div>
+</div>
+
   );
 };
 
