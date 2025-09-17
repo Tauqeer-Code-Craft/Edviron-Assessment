@@ -45,7 +45,7 @@ const StatusCheck = () => {
 
     const badge = mapping[status.status] || {
       label: status.status?.toUpperCase() || "UNKNOWN",
-      color: "bg-gray-100 text-gray-600",
+      color: "bg-zinc-100 text-zinc-600",
       icon: null,
     };
 
@@ -60,8 +60,8 @@ const StatusCheck = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100 text-center">
+    <div className="max-w-md mx-auto mt-12 p-6 bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-700">
+      <h2 className="text-2xl font-bold mb-6 text-zinc-800 dark:text-zinc-100 text-center">
         Check Transaction Status
       </h2>
 
@@ -71,7 +71,7 @@ const StatusCheck = () => {
           placeholder="Enter Custom Order ID"
           value={customOrderId}
           onChange={(e) => setCustomOrderId(e.target.value)}
-          className="flex-1 px-4 py-3 border rounded-lg dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          className="flex-1 px-4 py-3 border rounded-lg dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         />
         <button
           onClick={handleCheck}
@@ -87,21 +87,21 @@ const StatusCheck = () => {
       </div>
 
       {status && (
-        <div className="mt-4 p-5 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 space-y-2">
+        <div className="mt-4 p-5 bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 space-y-2">
           {status.error ? (
             <p className="text-red-500 font-semibold">{status.error}</p>
           ) : (
             <>
-              <p className="text-gray-700 dark:text-gray-200 font-medium">
+              <p className="text-zinc-700 dark:text-zinc-200 font-medium">
                 Status: {renderStatusBadge()}
               </p>
               {status.transaction_amount && (
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-zinc-600 dark:text-zinc-300">
                   Transaction Amount: <span className="font-semibold">₹{status.transaction_amount}</span>
                 </p>
               )}
               {status.order_amount && (
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-zinc-600 dark:text-zinc-300">
                   Order Amount: <span className="font-semibold">₹{status.order_amount}</span>
                 </p>
               )}

@@ -36,12 +36,12 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 dark:from-gray-900 dark:to-gray-800">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 dark:from-zinc-900 dark:to-zinc-800">
       <form
         onSubmit={handleSubmit}
-        className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-md"
+        className="bg-white dark:bg-zinc-800 p-8 rounded-2xl shadow-xl w-full max-w-md"
       >
-        <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-800 dark:text-gray-100">
+        <h2 className="text-3xl font-extrabold mb-6 text-center text-zinc-800 dark:text-zinc-100">
           Sign In
         </h2>
 
@@ -56,7 +56,7 @@ const Login = () => {
             placeholder="Username"
             value={form.username}
             onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 transition"
+            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:text-zinc-200 dark:border-zinc-600 transition"
             required
           />
         </div>
@@ -68,7 +68,7 @@ const Login = () => {
             placeholder="Password"
             value={form.password}
             onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 transition"
+            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:text-zinc-200 dark:border-zinc-600 transition"
             required
           />
         </div>
@@ -81,7 +81,7 @@ const Login = () => {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <p className="mt-4 text-sm text-center text-gray-600 dark:text-gray-300">
+        <p className="mt-4 text-sm text-center text-zinc-600 dark:text-zinc-300">
           Don't have an account?{" "}
           <a href="/sign-up" className="text-blue-600 hover:underline">
             Sign Up

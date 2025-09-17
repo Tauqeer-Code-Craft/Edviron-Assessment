@@ -48,8 +48,8 @@ const SchoolTransactions = () => {
   }, [schoolId]);
 
   return (
-    <div className="max-w-7xl mx-auto mt-10 p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100 text-center md:text-left">
+    <div className="max-w-7xl mx-auto mt-10 p-6 bg-white dark:bg-zinc-900 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-6 text-zinc-800 dark:text-zinc-100 text-center md:text-left">
         Search Transactions by School ID
       </h2>
 
@@ -60,12 +60,12 @@ const SchoolTransactions = () => {
           placeholder="Enter School ID"
           value={schoolInput}
           onChange={(e) => setSchoolInput(e.target.value)}
-          className="w-full md:w-1/3 px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full md:w-1/3 px-4 py-2 border rounded-lg dark:bg-zinc-700 dark:text-zinc-200 dark:border-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       {loading ? (
-        <div className="text-center py-10 text-gray-500 dark:text-gray-300">
+        <div className="text-center py-10 text-zinc-500 dark:text-zinc-300">
           Loading transactions...
         </div>
       ) : transactions.length > 0 ? (
@@ -73,16 +73,16 @@ const SchoolTransactions = () => {
           <Table
             data={transactions}
             columns={columns}
-            className="w-full border border-gray-200 dark:border-gray-700 rounded-md"
-            rowClassName="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            className="w-full border border-zinc-200 dark:border-zinc-700 rounded-md"
+            rowClassName="hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
           />
         </div>
       ) : schoolId ? (
-        <div className="text-center py-6 text-gray-500 dark:text-gray-400">
+        <div className="text-center py-6 text-zinc-500 dark:text-zinc-400">
           No transactions found for school <span className="font-semibold">{schoolId}</span>.
         </div>
       ) : (
-        <div className="text-center py-6 text-gray-500 dark:text-gray-400">
+        <div className="text-center py-6 text-zinc-500 dark:text-zinc-400">
           Enter a School ID to see transactions.
         </div>
       )}

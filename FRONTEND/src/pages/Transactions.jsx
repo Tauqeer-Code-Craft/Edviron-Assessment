@@ -3,6 +3,19 @@ import { useSearchParams } from "react-router-dom";
 import { fetchTransactions } from "../services/api";
 import { Calendar, Copy } from "lucide-react";
 
+const DEMO_TRANSACTIONS = [
+  {
+    collect_id: "demoCollect001",
+    school_id: "school_demo_001",
+    custom_order_id: "demoOrder001",
+    order_amount: 1000,
+    transaction_amount: 1050,
+    gateway_name: "PhonePe",
+    status: "success",
+    payment_time: "2025-09-10T10:00:00.000Z",
+  },
+];
+
 const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -50,9 +63,10 @@ const Transactions = () => {
           sortField,
           sortOrder,
         });
-        setTransactions(res.data || []);
+        setTransactions(res.data && res.data.length ? res.data : []);
       } catch (err) {
         console.error(err);
+        setTransactions([]);
       } finally {
         setLoading(false);
       }
@@ -75,13 +89,16 @@ const Transactions = () => {
   const formatCurrency = (value) =>
     new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(value);
 
+  const displayTransactions = transactions.length ? transactions : DEMO_TRANSACTIONS;
+
   return (
-    <div className="max-w-7xl mx-auto mt-4 p-6 bg-gray-50 dark:bg-gray-900 rounded-2xl shadow-xl relative">
+    <div className="max-w-7xl mx-auto mt-4 p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl shadow-xl relative">
       {toast && (
-        <div className="absolute top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md animate-slide-in">
-          {toast}
-        </div>
-      )}
+  <div className="fixed bottom-6 right-6 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md animate-fade-in">
+    {toast}
+  </div>
+)}
+
 
       <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-wrap gap-2 items-center">
@@ -94,7 +111,7 @@ const Transactions = () => {
                 e.target.value = "";
               }
             }}
-            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-gray-200 placeholder-gray-400"
+            className="px-4 py-2 border border-zinc-300 dark:border-zinc-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-zinc-700 dark:text-zinc-200 placeholder-zinc-400"
           />
           <button
             onClick={() => {}}
@@ -108,7 +125,7 @@ const Transactions = () => {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-gray-200"
+            className="px-4 py-2 border border-zinc-300 dark:border-zinc-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-zinc-700 dark:text-zinc-200"
           >
             <option value="">All Statuses</option>
             <option value="success">Success</option>
@@ -117,12 +134,12 @@ const Transactions = () => {
           </select>
 
           <div className="relative">
-            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-300" size={18} />
+            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-zinc-300" size={18} />
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-gray-200"
+              className="pl-10 pr-4 py-2 border border-zinc-300 dark:border-zinc-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-zinc-700 dark:text-zinc-200"
             />
           </div>
         </div>
@@ -140,68 +157,62 @@ const Transactions = () => {
         ))}
       </div>
 
-      {loading ? (
-        <div className="text-center py-10 text-gray-500 dark:text-gray-300">
-          Loading transactions...
-        </div>
-      ) : transactions.length === 0 ? (
-        <div className="text-center py-6 text-gray-500 dark:text-gray-300">
-          No transactions found.
-        </div>
-      ) : (
-        <div className="overflow-x-auto rounded-xl shadow-md">
-          <table className="min-w-full border-collapse table-auto">
-            <thead className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
-              <tr>
-                <th className="py-3 px-4 border-b">Sr No</th>
-                <th className="py-3 px-4 border-b">School ID</th>
-                <th className="py-3 px-4 border-b">Order ID</th>
-                <th className="py-3 px-4 border-b">Order Amount</th>
-                <th className="py-3 px-4 border-b">Transaction Amount</th>
-                <th className="py-3 px-4 border-b">Payment Method</th>
-                <th className="py-3 px-4 border-b">Status</th>
-                <th className="py-3 px-4 border-b">Collect ID</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-800 dark:text-gray-200">
-              {transactions.map((tx, idx) => (
-                <tr
-                  key={tx.collect_id}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+      <div className="overflow-x-auto rounded-xl shadow-md">
+        <table className="min-w-full border-collapse table-auto">
+          <thead className="bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200">
+            <tr>
+              <th className="py-3 px-4 border-b">Sr No</th>
+              <th className="py-3 px-4 border-b">School ID</th>
+              <th className="py-3 px-4 border-b">Order ID</th>
+              <th className="py-3 px-4 border-b">Order Amount</th>
+              <th className="py-3 px-4 border-b">Transaction Amount</th>
+              <th className="py-3 px-4 border-b">Payment Method</th>
+              <th className="py-3 px-4 border-b">Status</th>
+              <th className="py-3 px-4 border-b">Collect ID</th>
+            </tr>
+          </thead>
+          <tbody className="text-zinc-800 dark:text-zinc-200">
+            {displayTransactions.map((tx, idx) => (
+              <tr
+                key={tx.collect_id + idx}
+                className="hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors"
+              >
+                <td className="py-2 px-4 border-b">{idx + 1}</td>
+                <td className="py-2 px-4 border-b">{tx.school_id}</td>
+                <td
+                  className="py-2 px-4 border-b cursor-pointer flex items-center gap-1 hover:text-blue-600"
+                  onClick={() => copyToClipboard(tx.custom_order_id)}
+                  title={tx.custom_order_id}
                 >
-                  <td className="py-2 px-4 border-b">{idx + 1}</td>
-                  <td className="py-2 px-4 border-b">{tx.school_id}</td>
-                  <td
-                    className="py-2 px-4 border-b cursor-pointer flex items-center gap-1 hover:text-blue-600 "
-                    onClick={() => copyToClipboard(tx.custom_order_id)}
-                    title={tx.custom_order_id}
-                  >
-                    {tx.custom_order_id.length > 8 
-                    ? `${tx.custom_order_id.slice(0,6)}...${tx.custom_order_id.slice(-2)}`
-                    : tx.custom_order_id
-                    } 
-                    <Copy size={16} />
-                  </td>
-                  <td className="py-2 px-4 border-b">{formatCurrency(tx.order_amount)}</td>
-                  <td className="py-2 px-4 border-b">{formatCurrency(tx.transaction_amount)}</td>
-                  <td className="py-2 px-4 border-b">{tx.gateway_name}</td>
-                  <td className="py-2 px-4 border-b capitalize">{tx.status}</td>
-                  <td
-                    className="py-2 px-4 border-b cursor-pointer flex items-center gap-1 hover:text-blue-600"
-                    onClick={() => copyToClipboard(tx.collect_id)}
-                    title={tx.collect_id}
-                  >
-                    {tx.collect_id.length>8
-                    ?  `${tx.collect_id.slice(0,10)}...${tx.collect_id.slice(-3)}`
-                    : tx.collect_id
-                    } <Copy size={16} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+                  {tx.custom_order_id.length > 8
+                    ? `${tx.custom_order_id.slice(0, 6)}...${tx.custom_order_id.slice(-2)}`
+                    : tx.custom_order_id}
+                  <Copy size={16} />
+                </td>
+                <td className="py-2 px-4 border-b">{formatCurrency(tx.order_amount)}</td>
+                <td className="py-2 px-4 border-b">{formatCurrency(tx.transaction_amount)}</td>
+                <td className="py-2 px-4 border-b">{tx.gateway_name}</td>
+                <td className="py-2 px-4 border-b capitalize">{tx.status}</td>
+                <td
+                  className="py-2 px-4 border-b cursor-pointer flex items-center gap-1 hover:text-blue-600"
+                  onClick={() => copyToClipboard(tx.collect_id)}
+                  title={tx.collect_id}
+                >
+                  {tx.collect_id.length > 8
+                    ? `${tx.collect_id.slice(0, 10)}...${tx.collect_id.slice(-3)}`
+                    : tx.collect_id}
+                  <Copy size={16} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {!transactions.length && (
+          <div className="text-center text-sm italic text-zinc-500 p-4 bg-zinc-100 dark:bg-zinc-800 rounded-b-xl">
+            Showing demo data (no real transactions available)
+          </div>
+        )}
+      </div>
     </div>
   );
 };

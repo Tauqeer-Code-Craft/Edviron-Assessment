@@ -62,59 +62,61 @@ export const Navbar = ({ onLogin }) => {
   ];
 
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-lg sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex justify-between items-center">
-        <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-gray-50 tracking-tight">
-          School Dashboard
+    <nav className="bg-white dark:bg-zinc-900 shadow-md sticky top-0 z-50 border-b border-zinc-200 dark:border-zinc-800">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+        <h1 className="text-2xl font-semibold text-zinc-900 dark:text-white">
+          🎓 School Dashboard
         </h1>
 
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6">
-          {menuItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            const Icon = item.icon;
+          {menuItems.map(({ name, path, icon: Icon }) => {
+            const isActive = location.pathname === path;
             return (
               <Link
-                key={item.name}
-                to={item.path}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                key={name}
+                to={path}
+                className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition ${
                   isActive
-                    ? "bg-blue-600 text-white shadow-md"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800"
+                    ? "bg-blue-600 text-white shadow-sm"
+                    : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                 }`}
               >
                 <Icon className="w-5 h-5" />
-                <span>{item.name}</span>
+                <span>{name}</span>
               </Link>
             );
           })}
 
+          {/* Dark Mode Toggle */}
           <div
             onClick={toggleDark}
-            className="relative w-14 h-8 bg-gray-300 dark:bg-gray-700 rounded-full cursor-pointer flex items-center p-1 transition-colors duration-300"
+            className="w-12 h-6 flex items-center bg-zinc-300 dark:bg-zinc-700 rounded-full p-1 cursor-pointer transition"
           >
             <div
-              className={`absolute w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center ${
+              className={`w-5 h-5 bg-white rounded-full shadow transform duration-300 flex items-center justify-center ${
                 darkMode ? "translate-x-6" : "translate-x-0"
               }`}
             >
               {darkMode ? (
                 <SunIcon className="w-4 h-4 text-yellow-400" />
               ) : (
-                <MoonIcon className="w-4 h-4 text-gray-600" />
+                <MoonIcon className="w-4 h-4 text-zinc-600" />
               )}
             </div>
           </div>
 
+          {/* User Actions */}
           {isLoggedIn ? (
             <div className="flex items-center gap-3">
               {userName && (
-                <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium rounded-full text-sm shadow-sm">
+                <span className="px-3 py-1 text-sm bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 rounded-full">
                   {userName}
                 </span>
               )}
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow transition"
+                className="flex items-center gap-2 px-3 py-2 text-sm bg-red-600 hover:bg-red-700 text-white rounded-md transition"
               >
                 <ArrowLeftOnRectangleIcon className="w-5 h-5" />
                 Logout
@@ -123,7 +125,7 @@ export const Navbar = ({ onLogin }) => {
           ) : (
             <button
               onClick={onLogin}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow transition"
+              className="flex items-center gap-2 px-3 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-md transition"
             >
               <ArrowRightOnRectangleIcon className="w-5 h-5" />
               Login
@@ -131,74 +133,70 @@ export const Navbar = ({ onLogin }) => {
           )}
         </div>
 
+        {/* Mobile Hamburger */}
         <div className="md:hidden flex items-center gap-3">
           <div
             onClick={toggleDark}
-            className="relative w-12 h-6 bg-gray-300 dark:bg-gray-700 rounded-full cursor-pointer flex items-center p-1 transition-colors duration-300"
+            className="w-10 h-5 flex items-center bg-zinc-300 dark:bg-zinc-700 rounded-full p-1 cursor-pointer"
           >
             <div
-              className={`absolute w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center ${
-                darkMode ? "translate-x-6" : "translate-x-0"
+              className={`w-4 h-4 bg-white rounded-full shadow transform duration-300 ${
+                darkMode ? "translate-x-5" : "translate-x-0"
               }`}
-            >
-              {darkMode ? (
-                <SunIcon className="w-3.5 h-3.5 text-yellow-400" />
-              ) : (
-                <MoonIcon className="w-3.5 h-3.5 text-gray-600" />
-              )}
-            </div>
+            ></div>
           </div>
 
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="text-gray-700 dark:text-gray-300 focus:outline-none"
-          >
-            {menuOpen ? <XMarkIcon className="w-7 h-7" /> : <Bars3Icon className="w-7 h-7" />}
+          <button onClick={() => setMenuOpen(!menuOpen)} className="text-zinc-700 dark:text-zinc-300">
+            {menuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
+      {/* Mobile Slide Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-900 shadow-lg">
-          <ul className="flex flex-col gap-2 px-6 py-4">
-            {menuItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
-                    isActive
-                      ? "bg-blue-600 text-white shadow-md"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800"
-                  }`}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span>{item.name}</span>
-                </Link>
-              );
-            })}
+        <div className="md:hidden px-6 py-4 space-y-2 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 transition-all">
+          {menuItems.map(({ name, path, icon: Icon }) => {
+            const isActive = location.pathname === path;
+            return (
+              <Link
+                key={name}
+                to={path}
+                onClick={() => setMenuOpen(false)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition ${
+                  isActive
+                    ? "bg-blue-600 text-white shadow-sm"
+                    : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                }`}
+              >
+                <Icon className="w-5 h-5" />
+                <span>{name}</span>
+              </Link>
+            );
+          })}
 
-            {isLoggedIn ? (
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-3 py-2 mt-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow transition"
-              >
-                <ArrowLeftOnRectangleIcon className="w-5 h-5" />
-                Logout
-              </button>
-            ) : (
-              <button
-                onClick={onLogin}
-                className="flex items-center gap-2 px-3 py-2 mt-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow transition"
-              >
-                <ArrowRightOnRectangleIcon className="w-5 h-5" />
-                Login
-              </button>
-            )}
-          </ul>
+          {isLoggedIn ? (
+            <button
+              onClick={() => {
+                handleLogout();
+                setMenuOpen(false);
+              }}
+              className="flex items-center gap-2 px-3 py-2 mt-3 text-sm bg-red-600 hover:bg-red-700 text-white rounded-md transition"
+            >
+              <ArrowLeftOnRectangleIcon className="w-5 h-5" />
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                onLogin();
+                setMenuOpen(false);
+              }}
+              className="flex items-center gap-2 px-3 py-2 mt-3 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-md transition"
+            >
+              <ArrowRightOnRectangleIcon className="w-5 h-5" />
+              Login
+            </button>
+          )}
         </div>
       )}
     </nav>
