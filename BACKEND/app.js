@@ -14,7 +14,7 @@ const app = express();
 // Middleware
 app.use(helmet());  // headers will be secured
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://edviron-assessment-eosin.vercel.app",
     credentials: true,
 }));
 app.use(express.json({
