@@ -12,12 +12,6 @@
   - [Start the Frontend Server](#start-the-frontend-server)
   - [Configure Axios API Calls](#configure-axios-api-calls)
 - [API Endpoints](#api-endpoints)
-- [Testing](#testing)
-  - [Postman Collection](#postman-collection)
-  - [Simulating Webhooks](#simulating-webhooks)
-- [Hosting](#hosting)
-  - [Backend Hosting](#backend-hosting)
-  - [Frontend Hosting](#frontend-hosting)
 - [Environment Configuration](#environment-configuration)
   - [.env Configuration](#env-configuration)
 
@@ -63,6 +57,25 @@
    JWT_SECRET=your_jwt_secret
    JWT_EXPIRY=3600
 
+
+## Frontend Setup
+
+1. **Initialize Project**
+
+   - Use **Vite** or **Create React App** to set up the React project.
+   - Install **Tailwind CSS** or any other CSS framework like **Material-UI** or **Bootstrap** for styling.
+   - Use **Axios** for API calls and **React Router** for navigation.
+
+2. **Install Dependencies**
+
+   - Install the necessary dependencies using npm or yarn:
+     ```bash
+     npm install
+     ```
+
+---
+
+
 API Endpoints
 
 POST /create-payment
@@ -99,4 +112,5 @@ Response: Returns the status of the transaction (e.g., success, failed).
 git add README.md
 git commit -m "Add project README"
 git push origin main
+
 
