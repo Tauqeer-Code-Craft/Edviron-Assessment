@@ -16,33 +16,33 @@ API.interceptors.request.use((config) => {
 
 // ----------------- Transactions -----------------
 export const fetchTransactions = async ({ page = 1, limit = 10, sort = "payment_time", order = "desc", status = "" }) => {
-  return API.get(`api/transactions`, {
+  return API.get(`/transactions`, {
     params: { page, limit, sort, order, status },
   });
 };
 
 export const fetchTransactionsBySchool = (schoolId) => {
-  return API.get(`api/transactions/school/${schoolId}`);
+  return API.get(`/transactions/school/${schoolId}`);
 };
 
 export const checkTransactionsStatus = (customOrderId) => {
-  return API.get(`api/transaction-status/${customOrderId}`);
+  return API.get(`/transaction-status/${customOrderId}`);
 };
 
 
 // ----------------- Auth -----------------
 export const registerUser = async (data) => {
-  const response = await API.post("api/auth/register", data);
+  const response = await API.post("/auth/register", data);
   return response.data;
 };
 
 export const loginUser = async (data) => {
-  const response = await API.post("api/auth/login", data, {withCredentials: true});
+  const response = await API.post("/auth/login", data, {withCredentials: true});
   if (response.data?.token) localStorage.setItem("token", response.data.token);
   return response.data;
 };
 
 export const logoutUser = async () => {
-  await API.post("api/auth/logout" , {} , {withCredentials: true});
+  await API.post("/auth/logout" , {} , {withCredentials: true});
   localStorage.removeItem("token");
 };
